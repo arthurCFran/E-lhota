@@ -1,0 +1,34 @@
+/* Estilos customizados para as imagens e cards */
+.product-image {
+    max-height: 225px;
+    /* Altura padrão do Album */
+    object-fit: contain;
+    width: 100%;
+    padding: 10px;
+    display: block;
+}
+
+.card {
+    height: 100%;
+}
+
+.card-body {
+    display: flex;
+    flex-direction: column;
+}
+
+.card-title {
+    font-size: 1.1rem;
+    /* Dá espaço para títulos maiores */
+    min-height: 48px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Estilo para destacar o filtro de categoria ativo */
+.filter-btn.active {
+    background-color: #007bff;
+    border-color: #007bff;
+    color: white;
+    font-weight: bold;
+}

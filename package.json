@@ -1,0 +1,20 @@
+{
+  "name": "e-lhota",
+  "version": "1.0.0",
+  "description": "E-Commerce de Pedras de Amolar.",
+  "main": "src/app.js",
+  "scripts": {
+    "dev": "node --watch src/app.js"
+  },
+  "type": "module",
+  "keywords": [],
+  "author": "Arthur da Costa Francisco, Luiz Henrique da Fonseca",
+  "license": "ISC",
+  "dependencies": {
+    "@prisma/client": "^7.0.0",
+    "express": "^5.1.0"
+  },
+  "devDependencies": {
+    "prisma": "^6.19.0"
+  }
+}
