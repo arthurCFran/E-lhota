@@ -1,12 +1,5 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
-  provider = "prisma-client"
-  output   = "./generated"
+  provider = "prisma-client-js"
 }
 
 datasource db {
@@ -14,21 +7,22 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Produto {
-  id_produto     Int      @id @default(autoincrement())
-  nome           String
-  descricao      String?
-  categoria      String?
-  granulacao     Int?
-  material       String?
-  comprimento_mm Int?
-  largura_mm     Int?
-  altura_mm      Int?
-  peso_g         Int?
-  preco          Decimal
-  estoque        Int
-  imagem_url     String?
-  data_cadastro  DateTime @default(now())
+model Product { 
+  id          Int      @id @default(autoincrement())
+  title       String
+  price       Float
+  description String
+  image       String
+  category    String
 
-  @@map("produtos")
+  rating      Rating?   @relation(fields: [ratingId], references: [id], onDelete: Cascade)
+  ratingId    Int?      @unique
+}
+
+model Rating {
+  id        Int      @id @default(autoincrement())
+  rate      Float
+  count     Int
+
+  product   Product?
 }

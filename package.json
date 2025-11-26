@@ -1,17 +1,26 @@
 {
   "name": "e-lhota",
   "version": "1.0.0",
-  "description": "E-Commerce de Pedras de Amolar.",
+  "description": "E-Commerce de Ilhota.",
   "main": "src/app.js",
   "scripts": {
     "dev": "node --watch src/app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/arthurCFran/E-lhota.git"
   },
   "type": "module",
   "keywords": [],
   "author": "Arthur da Costa Francisco, Luiz Henrique da Fonseca",
   "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/arthurCFran/E-lhota/issues"
+  },
+  "homepage": "https://github.com/arthurCFran/E-lhota#readme",
   "dependencies": {
-    "@prisma/client": "^7.0.0",
+    "@prisma/client": "^6.19.0",
+    "dotenv": "^17.2.3",
     "express": "^5.1.0"
   },
   "devDependencies": {
