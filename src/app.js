@@ -10,9 +10,7 @@ app.use(express.urlencoded())
 
 //nossas rotas
 
-app.get('/e_lhota', (request, response) => {
-    response.sendFile( 'index.html', { root: './views/html/' } )
-} )
+app.use(express.static('views/html'))
 
 app.use(express.static('views/assets'))
 
