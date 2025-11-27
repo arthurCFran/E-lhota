@@ -14,20 +14,6 @@ app.get('/e_lhota', (request, response) => {
     response.sendFile( 'index.html', { root: './views/html/' } )
 } )
 
-/*app.get('/api/pedras', async (request, response)=> {
-    await prisma.product.createMany({
-        data: [
-            {name : 'produto teste 1',price: 10},
-            {name : 'produto teste 2',price: 24},
-            {name : 'produto teste 3',price: 300}
-        ]
-    })
-
-    const pedras = await prisma.product.findMany({
-        orderBy: { id: 'desc' }
-    })
-    response.json(pedras)
-}) */
-
+app.use(express.static('views/assets'))
 
 app.listen(PORT, () => console.log(`API on http://localhost:${PORT}`))
