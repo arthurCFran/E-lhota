@@ -15,6 +15,7 @@ const filterProducts = async (filters) => {
             id: true,
             title: true,
             price: true,
+            description: true,
             category: true,
             image: true,
             quantity: true,
