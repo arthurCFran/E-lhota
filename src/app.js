@@ -1,17 +1,23 @@
-import express from 'express'
-import { prisma } from './db/prisma.js'
+import express from "express";
+import { prisma } from "./db/prisma.js";
 
-const PORT = process.env.PORT || 3000
+//importando as rotas da API
+import apiRoutes from "./routes/fakestore.routes.js";
 
-const app = express()
+const PORT = process.env.PORT || 3000;
 
-app.use(express.json())
-app.use(express.urlencoded())
+const app = express();
 
-//nossas rotas
+app.use(express.json());
+app.use(express.urlencoded());
 
-app.use(express.static('views/html'))
+//nossas rotas de API
 
-app.use(express.static('views/assets'))
+app.use("/api", apiRoutes);
 
-app.listen(PORT, () => console.log(`API on http://localhost:${PORT}`))
+//nossas rotas de front-end
+app.use(express.static("views/html"));
+
+app.use(express.static("views/assets"));
+
+app.listen(PORT, () => console.log(`API on http://localhost:${PORT}`));

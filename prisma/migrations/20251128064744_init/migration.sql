@@ -1,5 +1,26 @@
--- AlterTable
-ALTER TABLE `product` ADD COLUMN `quantity` INTEGER NOT NULL DEFAULT 0;
+-- CreateTable
+CREATE TABLE `Product` (
+    `id` INTEGER NOT NULL,
+    `title` VARCHAR(191) NOT NULL,
+    `price` DOUBLE NOT NULL,
+    `description` VARCHAR(191) NOT NULL,
+    `image` VARCHAR(191) NOT NULL,
+    `category` VARCHAR(191) NOT NULL,
+    `quantity` INTEGER NOT NULL DEFAULT 20,
+    `ratingId` INTEGER NULL,
+
+    UNIQUE INDEX `Product_ratingId_key`(`ratingId`),
+    PRIMARY KEY (`id`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- CreateTable
+CREATE TABLE `Rating` (
+    `id` INTEGER NOT NULL AUTO_INCREMENT,
+    `rate` DOUBLE NOT NULL,
+    `count` INTEGER NOT NULL,
+
+    PRIMARY KEY (`id`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
 CREATE TABLE `Client` (
@@ -35,6 +56,9 @@ CREATE TABLE `OrderItem` (
     UNIQUE INDEX `OrderItem_orderId_productId_key`(`orderId`, `productId`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- AddForeignKey
+ALTER TABLE `Product` ADD CONSTRAINT `Product_ratingId_fkey` FOREIGN KEY (`ratingId`) REFERENCES `Rating`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `Order` ADD CONSTRAINT `Order_clientId_fkey` FOREIGN KEY (`clientId`) REFERENCES `Client`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
