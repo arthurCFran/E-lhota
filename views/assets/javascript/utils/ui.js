@@ -15,21 +15,24 @@ const updateStatus = (text, type) => {
 
 const cardProduct = (product) => {
     const col = document.createElement('div')
+    const modalId = `modal-${product.id}`;
     col.classList.add('col')
     col.innerHTML = `<div class="card shadow-sm">
         <img src="${product.image}" class="card-img-top product-img" alt="${product.title}">
         <div class="card-body" >
             <h5 class="card-title">${product.title}</h5>
             <p class="car-text text-truncate" > ${product.description}</p>
-            <p class="car-text fw-bold text-success">${product.price.toFixed(2)}</p>
+            <p class="car-text fw-bold text-success">R$${product.price.toFixed(2)}</p>
             <div class="d-flex justify-content-between align-items-center mt-auto" >
                 <div class="btn-group">
-                    <button type="button" class="btn btn-sm" >Detalhes</button>
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#${modalId}">
+                       + Detalhes
+                    </button>
                     <button type="button"
                         data-id="${product.id}" 
                         data-id-title="${product.title}" 
-                        data-id-price="${product.price}" 
-                        data-id-image="${product.image}" 
+                        data-id-price="${product.price.toFixed(2)}" 
+                        data-id-image="${product.image}"
                         class="btn btn-sm btn-success add-to-cart" >
                         + Carrinho
                     </button>
@@ -41,6 +44,55 @@ const cardProduct = (product) => {
     return col
 }
 
+const modalButton = (product) => {
+    const modalId = `modal-${product.id}`;
+
+    const card = document.createElement('div');
+    card.classList.add('card');
+
+    card.innerHTML = `
+
+        <div class="modal fade" id="${modalId}" tabindex="-1" role="dialog" aria-labelledby="${modalId}-title" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="${modalId}-title">${product.title}</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+
+                    <div class="modal-body">
+                        <img src="${product.image}" class="img-fluid mb-3" alt="${product.title}">
+                        <p><strong>Preço:</strong> R$ ${product.price.toFixed(2)}</p>
+                        <p><strong>Descrição:</strong> ${product.description || "Sem descrição disponível"}</p>
+                        <p><strong>Categoria:</strong> ${product.category}</p>
+                        <p><strong>Quantidade em estoque:</strong> ${product.id} (tem que trocar para o estoque de vez id mas como ainda nao tem se liga no texto)</p>
+                        <p><strong>Avaliação:</strong> ${product.rating ? product.rating.rate : "N/A"} (${product.rating ? product.rating.count : "0"} avaliações)</p>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+
+                        <button type="button"
+                            data-id="${product.id}" 
+                            data-title="${product.title}" 
+                            data-price="${product.price.toFixed(2)}" 
+                            data-image="${product.image}"
+                            class="btn btn-success add-to-cart">
+                            + Carrinho
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    `;
+
+    return card;
+};
+
 const buttonCategory = (category) => {
     const button = document.createElement('button')
     button.type = 'button'
@@ -51,4 +103,4 @@ const buttonCategory = (category) => {
     return button
 }
 
-export { cardProductEmpty, updateStatus, cardProduct, buttonCategory }
+export { cardProductEmpty, updateStatus, cardProduct, buttonCategory, modalButton }

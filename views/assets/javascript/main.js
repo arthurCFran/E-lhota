@@ -28,7 +28,9 @@ import * as category from './module/category/category.js'
         productList.innerHTML = ''
         products.forEach(product => {
             const col = ui.cardProduct(product)
+            const modal = ui.modalButton(product);
             productList.appendChild(col)
+            document.body.appendChild(modal); 
         })
     }
 
