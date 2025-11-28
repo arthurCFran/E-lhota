@@ -18,6 +18,12 @@ const filterProducts = async (filters) => {
             category: true,
             image: true,
             quantity: true,
+            rating: {
+                select: {
+                    rate: true,
+                    count: true,
+                },
+            },
         },
     });
 }
