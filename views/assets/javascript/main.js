@@ -71,12 +71,16 @@ import * as category from './module/category/category.js'
     productList.addEventListener('click', (event) => {
         if (!event.target.classList.contains('add-to-cart')) return
 
-        const { id, title, price, image } = event.target.dataset
+        const { id, title, price, image, description, quantity, rating, category } = event.target.dataset
         cart.add({
             id: Number(id),
-            title,
+            title: String(title),
             price: Number(price),
-            image
+            image: String(image),
+            quantity: Number(quantity),
+            rating: Number(rating),
+            category: String(category),
+            description: String(description)
         }, 1)
     })
 
