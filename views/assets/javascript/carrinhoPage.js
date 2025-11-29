@@ -1,10 +1,11 @@
 import * as cart from './module/cart/cart.js'
 import * as ui from './utils/ui.js'
+import * as product from './module/products/product.js'
 
 (() => {
     "use strict"
 
-    const KEY = 'apenas-os-forter-sobrevivem'
+    const KEY = 'carrinho-digital'
 
     const cardProduct = (product) => {
         const col = document.createElement('div')
@@ -34,17 +35,29 @@ import * as ui from './utils/ui.js'
         return col
     }
 
-    const showCarrinho = () => {
-        products = product.get()
+    const showCarrinho = async () => {
+        
+        const products = await product.get()
 
         if (products.length === 0) {
             productList.innerHTML = ui.cardProductEmpty()
             return
         }
+
         ui.updateStatus('', 'none')
+        renderCart(product)
+
+        
+    }
+    const renderCart = (products) => {
+        const productList = document.querySelector("#product-list")
+        productList.innerHTML = ''
+        console.log(product)
         products.forEach(product => {
             const col = ui.cardProduct(product)
-            renderProducts(products)
+            const modal = ui.modalButton(product);
+            productList.appendChild(col)
+            document.body.appendChild(modal); 
         })
     }
 
