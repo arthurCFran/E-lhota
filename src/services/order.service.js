@@ -7,22 +7,33 @@ const createOrder = async (order) => {
             data: {
                 clientId: order.clientId,
                 totalAmount: order.totalAmount,
+                client: {
+                    create: {
+                        data: {
+                            name: order.client.name,
+                            email: order.client.email,
+                            phone: order.client.phone,
+                            address: order.client.address,
+                            city: order.client.city,
+                            state: order.client.state,
+                            zipCode: order.client.zipCode,
+                        }
+                    },
+                },
                 orderItems: {
                     createMany: {
-                        data: [
-                            {
-                                productId: order.itens.id,
-                                quantity: order.itens.quantity,
-                                price: order.itens.price,
-                            }
-                        ]
+                        data: order.itens.map(item => ({
+                            productId: item.id,
+                            quantity: item.quantity,
+                            price: item.price,
+                        }))
                     }
                 }
             }
         })
     } catch (error) {
         console.error("Erro ao criar pedido:", error);
-        return ("Falha ao Criar Pedido");
+        throw error;
     }
 }
 

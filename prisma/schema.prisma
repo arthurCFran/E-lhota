@@ -37,6 +37,9 @@ model Client {
   password String
   phone    String?
   address  String?
+  city     String?
+  state    String?
+  zipCode  String?
 
   orders Order[]
 }
