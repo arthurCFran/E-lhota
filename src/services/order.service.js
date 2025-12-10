@@ -3,16 +3,19 @@ import { prisma } from "../db/prisma.js";
 const createOrder = async (order) => {
 
     try {
-        prisma.order.create({
+        return await prisma.order.create({
             data: {
                 clientId: order.clientId,
                 totalAmount: order.totalAmount,
                 orderItems: {
                     createMany: {
-                        orderId: id,
-                        productId: order.itens.id,
-                        quantity: order.itens.quantity,
-                        price: order.itens.price,
+                        data: [
+                            {
+                                productId: order.itens.id,
+                                quantity: order.itens.quantity,
+                                price: order.itens.price,
+                            }
+                        ]
                     }
                 }
             }
