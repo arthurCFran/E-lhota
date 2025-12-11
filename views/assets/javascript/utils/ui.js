@@ -1,5 +1,5 @@
 const cardProductEmpty = () => {
-    return '<p class="col-12 text-center alert alert-warning"> Achei nada Zé.</p>'
+    return '<p class="col-12 text-center alert alert-warning"> Nenhum produto encontrado.</p>'
 }
 
 const updateStatus = (text, type) => {
@@ -94,8 +94,7 @@ const buttonCategory = (category) => {
     const button = document.createElement('button')
     button.type = 'button'
     button.className = 'filter-btn list-group-item list-group-item-action'
-    button.dataset = category
-    console.log(category)
+    button.dataset.category = category
     button.textContent = category.charAt(0).toUpperCase() + category.slice(1)
 
     return button

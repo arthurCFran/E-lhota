@@ -58,6 +58,7 @@ import * as ui from './utils/ui.js'
             document.body.appendChild(modal); 
         })
     }
-    
+
+    //localStorage.removeItem(KEY)
     showCarrinho()
 })()

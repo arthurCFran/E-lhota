@@ -26,14 +26,15 @@ const add = (product, quantityReq = 1) => {
     const cart = load()
     
     product.quantityReq = quantityReq
-    const index = cart.items.findIndex(i => {i.id === product.id})
-    if (index >= 1){
+    const index = cart.items.findIndex(i => i.id === product.id)
+    console.log(index)
+    if (index !== -1){
+        console.log(product)
         cart.items[index].quantityReq += quantityReq
     } else {
         cart.items.push(product)
 
     }
-    console.log(product)
     cart.updatedAt = Date.now()
     save(cart)
     alert('Produto adicionado ao carrinho!')
