@@ -38,8 +38,8 @@ import * as category from './module/category/category.js'
         if (categories.length === 0) {
             return
         }
-        categories.forEach(category => {
-            const button = ui.buttonCategory(category)
+        categories.forEach(cat => {
+            const button = ui.buttonCategory(cat.category)
             categoryFilter.appendChild(button)
 
         })

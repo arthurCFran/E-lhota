@@ -34,7 +34,7 @@ const cardProduct = (product) => {
                         + Carrinho
                     </button>
                 </div>
-                <small class="text-muted">${product.category}</small>
+                <small class="text-muted">${product}</small>
             </div>
         </div>
     </div>`
@@ -64,7 +64,7 @@ const modalButton = (product) => {
                         <img src="${product.image}" class="img-fluid mb-3" alt="${product.title}">
                         <p><strong>Preço:</strong> R$ ${product.price.toFixed(2)}</p>
                         <p><strong>Descrição:</strong> ${product.description || "Sem descrição disponível"}</p>
-                        <p><strong>Categoria:</strong> ${product.category}</p>
+                        <p><strong>Categoria:</strong> ${product}</p>
                         <p><strong>Quantidade em estoque:</strong> ${product.quantity || "Sem estoque disponível"}</p>
                         <p><strong>Avaliação:</strong> ${product.rating ? product.rating.rate : "N/A"} (${product.rating ? product.rating.count : "0"} avaliações)</p>
                     </div>
@@ -94,7 +94,8 @@ const buttonCategory = (category) => {
     const button = document.createElement('button')
     button.type = 'button'
     button.className = 'filter-btn list-group-item list-group-item-action'
-    button.dataset.category = category
+    button.dataset = category
+    console.log(category)
     button.textContent = category.charAt(0).toUpperCase() + category.slice(1)
 
     return button
