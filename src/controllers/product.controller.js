@@ -1,6 +1,6 @@
 import { filterProducts } from "../services/product.service.js";
 
-const  listProducts = async (req, res) => {
+const listProducts = async (req, res) => {
   try {
     const filters = {
       categoria: req.query.categoria || null,

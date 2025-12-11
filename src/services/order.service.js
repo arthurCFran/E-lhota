@@ -24,7 +24,7 @@ const createOrder = async (order) => {
                     createMany: {
                         data: order.itens.map(item => ({
                             productId: item.id,
-                            quantity: item.quantity,
+                            quantity: item.quantityReq,
                             price: item.price,
                         }))
                     }

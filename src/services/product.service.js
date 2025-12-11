@@ -1,6 +1,5 @@
 import { prisma } from "../db/prisma.js";
 
-
 const filterProducts = async (filters) => {
     const { categoria, titulo } = filters;
 
@@ -28,6 +27,5 @@ const filterProducts = async (filters) => {
         },
     });
 }
-
 
 export { filterProducts };

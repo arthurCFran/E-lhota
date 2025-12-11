@@ -29,10 +29,7 @@ const cardProduct = (product) => {
                        + Detalhes
                     </button>
                     <button type="button"
-                        data-id="${product.id}" 
-                        data-id-title="${product.title}" 
-                        data-id-price="${product.price.toFixed(2)}" 
-                        data-id-image="${product.image}"
+                        data-product='${JSON.stringify(product).replace(/'/g, "&apos;")}'
                         class="btn btn-sm btn-success add-to-cart" >
                         + Carrinho
                     </button>
@@ -68,7 +65,7 @@ const modalButton = (product) => {
                         <p><strong>Preço:</strong> R$ ${product.price.toFixed(2)}</p>
                         <p><strong>Descrição:</strong> ${product.description || "Sem descrição disponível"}</p>
                         <p><strong>Categoria:</strong> ${product.category}</p>
-                        <p><strong>Quantidade em estoque:</strong> ${product.id} (tem que trocar para o estoque de vez id mas como ainda nao tem se liga no texto)</p>
+                        <p><strong>Quantidade em estoque:</strong> ${product.quantity || "Sem estoque disponível"}</p>
                         <p><strong>Avaliação:</strong> ${product.rating ? product.rating.rate : "N/A"} (${product.rating ? product.rating.count : "0"} avaliações)</p>
                     </div>
 

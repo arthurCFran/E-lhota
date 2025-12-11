@@ -1,6 +1,5 @@
 import * as cart from './module/cart/cart.js'
 import * as ui from './utils/ui.js'
-import * as product from './module/products/product.js'
 
 (() => {
     "use strict"
@@ -37,7 +36,9 @@ import * as product from './module/products/product.js'
 
     const showCarrinho = async () => {
         
-        const products = await product.get()
+        const products = await cart.get()
+
+        console.log(products)
 
         if (products.length === 0) {
             productList.innerHTML = ui.cardProductEmpty()
@@ -45,14 +46,11 @@ import * as product from './module/products/product.js'
         }
 
         ui.updateStatus('', 'none')
-        renderCart(product)
-
-        
+        renderCart(products)
     }
     const renderCart = (products) => {
         const productList = document.querySelector("#product-list")
         productList.innerHTML = ''
-        console.log(product)
         products.forEach(product => {
             const col = ui.cardProduct(product)
             const modal = ui.modalButton(product);
@@ -60,6 +58,6 @@ import * as product from './module/products/product.js'
             document.body.appendChild(modal); 
         })
     }
-
+    
     showCarrinho()
 })()

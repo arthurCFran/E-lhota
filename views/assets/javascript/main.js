@@ -23,14 +23,13 @@ import * as category from './module/category/category.js'
         renderProducts(products)
     }
 
-
     const renderProducts = (products) => {
         productList.innerHTML = ''
         products.forEach(product => {
             const col = ui.cardProduct(product)
             const modal = ui.modalButton(product);
             productList.appendChild(col)
-            document.body.appendChild(modal); 
+            document.body.appendChild(modal);
         })
     }
 
@@ -45,7 +44,7 @@ import * as category from './module/category/category.js'
 
         })
     }
-    
+
     categoryFilter.addEventListener('click', (event) => {
         const btn = event.target.closest('.filter-btn')
         if (!btn) return  // clique não foi em um botão
@@ -68,20 +67,27 @@ import * as category from './module/category/category.js'
         renderProducts(productsFiltered)
     }
 
-    productList.addEventListener('click', (event) => {
+    productList.addEventListener('click', async (event) => {
         if (!event.target.classList.contains('add-to-cart')) return
 
-        const { id, title, price, image, description, quantity, rating, category } = event.target.dataset
-        cart.add({
-            id: Number(id),
-            title: String(title),
-            price: Number(price),
-            image: String(image),
-            quantity: Number(quantity),
-            rating: Number(rating),
-            category: String(category),
-            description: String(description)
-        }, 1)
+        const product = JSON.parse(event.target.dataset.product)
+
+        if (product.quantity <= 0) return alert('Produto sem estoque disponivel!')
+
+        try {
+            await fetch(`/stock/${product.id}/decrement`, {
+                method: "PATCH",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ quant: 1 })
+            });
+        } catch (error) {
+            console.error('Erro ao diminuir estoque:', error);
+            return alert('Erro ao adicionar produto ao carrinho.')
+        }
+        
+        product.quantity -= 1
+
+        cart.add(product)
     })
 
     ui.updateStatus('Carregandp produtos...', "info")

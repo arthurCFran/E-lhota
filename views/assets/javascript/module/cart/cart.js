@@ -22,15 +22,15 @@ const save = (cart) => {
     localStorage.setItem(KEY, JSON.stringify(cart))
 }
 
-const add = (id, quantity = 1, title, category) => {
+const add = (product, quantityReq = 1) => {
     const cart = load()
-    console.log(cart)
-
-    const index = cart.items.findIndex(i => {i.id === id})
+    
+    product.quantityReq = quantityReq
+    const index = cart.items.findIndex(i => {i.id === product.id})
     if (index >= 1){
-        cart.items[index].quantity += quantity
+        cart.items[index].quantityReq += quantityReq
     } else {
-        cart.items.push({id, title, category:category, rating:rating , quantity: quantity})
+        cart.items.push(product)
 
     }
     console.log(product)
@@ -38,6 +38,10 @@ const add = (id, quantity = 1, title, category) => {
     save(cart)
     alert('Produto adicionado ao carrinho!')
 }
-load()
 
-export { add }
+const get = () => {
+    const cart = load()
+    return cart.items
+}
+
+export { add, get }
