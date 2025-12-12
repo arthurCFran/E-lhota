@@ -86,8 +86,8 @@ import * as ui from './utils/ui/ui.js'
     btnCheckout.addEventListener("click", () => {
         const order = JSON.parse(btnCheckout.dataset.checkout)
         
-        ui.popoverFinalizar()
-        
+        ui.popoverFinalizar(order.items)
+
     })
 
 })()

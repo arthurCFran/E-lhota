@@ -33,7 +33,7 @@ model Rating {
 model Client {
   id       Int     @id @default(autoincrement())
   name     String
-  email    String  @unique
+  email    String
   password String
   phone    String?
   address  String?

@@ -3,6 +3,6 @@ import { finalizeOrder } from "../controllers/order.controller.js";
 
 const router = Router();
 
-router.get("/", finalizeOrder );
+router.post("/", finalizeOrder );
 
 export default router;

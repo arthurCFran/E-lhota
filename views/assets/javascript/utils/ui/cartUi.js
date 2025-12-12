@@ -22,7 +22,7 @@ const cardCartProduct = (product) => {
     return col
 }
 
-const popoverFinalizar = () => {
+const popoverFinalizar = (items) => {
     const modalHTML = `
         <div class="modal fade" id="checkoutModal" tabindex="-1">
             <div class="modal-dialog">
@@ -49,6 +49,10 @@ const popoverFinalizar = () => {
 
                         <label class="form-label">Email</label>
                         <input id="client-email" class="form-control mb-3"
+                            style="background:#2c2727;border:none;color:white">
+                        
+                        <label class="form-label">Senha</label>
+                        <input id="client-password" type="password" class="form-control mb-3"
                             style="background:#2c2727;border:none;color:white">
 
                         <label class="form-label">Telefone</label>
@@ -112,27 +116,28 @@ const popoverFinalizar = () => {
     document.querySelector("#confirm-checkout").addEventListener("click", async () => {
         document.activeElement?.blur()
         try {
-        const client = {
-            name: document.querySelector("#client-name").value.trim(),
-            email: document.querySelector("#client-email").value.trim(),
-            phone: document.querySelector("#client-phone").value.trim(),
-            address: document.querySelector("#client-address").value.trim(),
-            city: document.querySelector("#client-city").value.trim(),
-            state: document.querySelector("#client-state").value.trim(),
-            zipCode: document.querySelector("#client-zip").value.trim(),
-        }
-        
-        if (!client.name || !client.email) {
-            return alert("Por favor, preencha pelo menos Nome e Email.")
-        }
+            const client = {
+                name: document.querySelector("#client-name").value.trim(),
+                email: document.querySelector("#client-email").value.trim(),
+                password: document.querySelector("#client-password").value.trim(),
+                phone: document.querySelector("#client-phone").value.trim(),
+                address: document.querySelector("#client-address").value.trim(),
+                city: document.querySelector("#client-city").value.trim(),
+                state: document.querySelector("#client-state").value.trim(),
+                zipCode: document.querySelector("#client-zip").value.trim(),
+            }
 
-        const cart = JSON.parse(localStorage.getItem("carrinho-digital"))
-        const response = await createOrder(client, cart)
 
-        alert("Pedido finalizado com sucesso! ID: " + response.orderId);
-        localStorage.removeItem("carrinho-digital");
+            if (!client.name || !client.email) {
+                return alert("Por favor, preencha pelo menos Nome e Email.")
+            }
 
-        modal.hide()
+            const response = await createOrder(client, items)
+
+            alert("Pedido finalizado com sucesso! ID: " + response.orderId);
+            localStorage.removeItem("carrinho-digital");
+
+            modal.hide()
         } catch (error) {
             console.error(error);
             alert("Erro ao finalizar o pedido.");
@@ -145,7 +150,7 @@ const popoverFinalizar = () => {
 }
 
 const createOrder = async (client, cart) => {
-    const res = await fetch("/order/finalize", {
+    const res = await fetch("/order", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ client, cart })

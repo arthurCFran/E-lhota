@@ -5,6 +5,7 @@ const createOrder = async (client, cart) => {
         data: {
             name: client.name,
             email: client.email,
+            password: client.password,
             phone: client.phone,
             address: client.address,
             city: client.city,

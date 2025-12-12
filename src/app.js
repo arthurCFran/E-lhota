@@ -1,6 +1,9 @@
 import express from "express";
 import { prisma } from "./db/prisma.js";
 
+//Roda de criação/finalização de pedidos
+import orderRoutes from "./routes/order.routes.js";
+
 //Roda de devolução de produtos ao estoque com incremento no estoque
 import incrementRoutes from "./routes/increment.routes.js";
 
@@ -41,6 +44,9 @@ app.use("/stock", decrementRoutes);
 
 //Roda para atualizar quantidade produtos do banco de dados API
 app.use("/stock", incrementRoutes);
+
+//Roda de criação/finalização de pedidos
+app.use("/order", orderRoutes);
 
 //nossas rotas de front-end
 app.use(express.static("views/html"));
