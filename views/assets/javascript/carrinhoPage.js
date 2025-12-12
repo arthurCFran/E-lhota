@@ -5,6 +5,7 @@ import * as ui from './utils/ui/ui.js'
     "use strict"
 
     const KEY = 'carrinho-digital'
+    const productList = document.querySelector("#product-list")
 
     const cardCartProduct = (product) => {
         const col = document.createElement('div')
@@ -52,12 +53,37 @@ import * as ui from './utils/ui/ui.js'
         const productList = document.querySelector("#product-list")
         productList.innerHTML = ''
         products.forEach(product => {
-            const col = ui.cardProduct(product)
+            const col = ui.cardCartProduct(product)
             const modal = ui.modalButton(product);
             productList.appendChild(col)
             document.body.appendChild(modal); 
         })
     }
+
+    productList.addEventListener('click', async (event) => {
+            if (!event.target.classList.contains('exclude-from-cart')) return
+    
+            const product = JSON.parse(event.target.dataset.product)
+    
+            try {
+                await fetch(`/stock/${product.id}/increment`, {
+                    method: "PATCH",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ quant: 1 })
+                });
+            } catch (error) {
+                console.error('Erro ao devolver ao estoque:', error);
+                return alert('Erro ao devolver o produto.')
+            }
+            
+            product.quantity += 1
+            
+            product.quantityReq -= 1
+            
+            if (product.quantityReq <= 0 ) {
+                cart.exclude(product)
+            } 
+        })
 
     //localStorage.removeItem(KEY)
     showCarrinho()

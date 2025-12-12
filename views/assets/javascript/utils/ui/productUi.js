@@ -23,6 +23,7 @@ const cardProduct = (product) => {
             <h5 class="card-title">${product.title}</h5>
             <p class="car-text text-truncate" > ${product.description}</p>
             <p class="car-text fw-bold text-success">R$${product.price.toFixed(2)}</p>
+            <p class="car-text fw-bold text-light">Estoque:${product.quantity}</p>
             <div class="d-flex justify-content-between align-items-center mt-auto" >
                 <div class="btn-group">
                     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#${modalId}">
@@ -34,7 +35,6 @@ const cardProduct = (product) => {
                         + Carrinho
                     </button>
                 </div>
-                <small class="text-muted">${product}</small>
             </div>
         </div>
     </div>`
@@ -64,7 +64,7 @@ const modalButton = (product) => {
                         <img src="${product.image}" class="img-fluid mb-3" alt="${product.title}">
                         <p><strong>Preço:</strong> R$ ${product.price.toFixed(2)}</p>
                         <p><strong>Descrição:</strong> ${product.description || "Sem descrição disponível"}</p>
-                        <p><strong>Categoria:</strong> ${product}</p>
+                        <p><strong>Categoria:</strong> ${product.category}</p>
                         <p><strong>Quantidade em estoque:</strong> ${product.quantity || "Sem estoque disponível"}</p>
                         <p><strong>Avaliação:</strong> ${product.rating ? product.rating.rate : "N/A"} (${product.rating ? product.rating.count : "0"} avaliações)</p>
                     </div>

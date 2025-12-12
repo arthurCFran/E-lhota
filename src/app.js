@@ -1,10 +1,13 @@
 import express from "express";
 import { prisma } from "./db/prisma.js";
 
-//Roda de catregorias dos produtos do banco de dados API
+//Roda de devolução de produtos ao estoque com incremento no estoque
+import incrementRoutes from "./routes/increment.routes.js";
+
+//Roda de alocação de produtos ao carrinho com decremento no estoque
 import decrementRoutes from "./routes/decrement.routes.js";
 
-//Roda de catregorias dos produtos do banco de dados API
+//Roda de categorias dos produtos do banco de dados API
 import categoryRoutes from "./routes/category.routes.js";
 
 //Rota de Filtragem e Listagem de Produtos
@@ -30,18 +33,18 @@ app.use("/api", apiRoutes);
 */
 app.use("/products", productRoutes);
 
-//Roda de catregorias dos produtos do banco de dados API
+//Roda de categorias dos produtos do banco de dados API
 app.use("/categories", categoryRoutes);
 
 //Roda para atualizar quantidade produtos do banco de dados API
 app.use("/stock", decrementRoutes);
 
+//Roda para atualizar quantidade produtos do banco de dados API
+app.use("/stock", incrementRoutes);
+
 //nossas rotas de front-end
 app.use(express.static("views/html"));
 
 app.use(express.static("views/assets"));
-
-//rota para utilização das imagens
-app.use(express.static('public'));
 
 app.listen(PORT, () => console.log(`API on http://localhost:${PORT}`));

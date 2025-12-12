@@ -27,9 +27,7 @@ const add = (product, quantityReq = 1) => {
     
     product.quantityReq = quantityReq
     const index = cart.items.findIndex(i => i.id === product.id)
-    console.log(index)
     if (index !== -1){
-        console.log(product)
         cart.items[index].quantityReq += quantityReq
     } else {
         cart.items.push(product)
@@ -40,9 +38,25 @@ const add = (product, quantityReq = 1) => {
     alert('Produto adicionado ao carrinho!')
 }
 
+const exclude = (product) => {
+    const cart = load()
+
+    const index = cart.items.findIndex(i => i.id === product.id)
+    if (index !== -1){
+        cart.items.splice(index, 1)
+    }else {
+        alert('Produto não encontrado no carrinho!')
+        return
+    }
+
+    cart.updatedAt = Date.now()
+    save(cart)
+    alert('Produto retirado do carrinho!')
+}
+
 const get = () => {
     const cart = load()
     return cart.items
 }
 
-export { add, get }
+export { add, get, exclude }
