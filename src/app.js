@@ -41,4 +41,7 @@ app.use(express.static("views/html"));
 
 app.use(express.static("views/assets"));
 
+//rota para utilização das imagens
+app.use(express.static('public'));
+
 app.listen(PORT, () => console.log(`API on http://localhost:${PORT}`));

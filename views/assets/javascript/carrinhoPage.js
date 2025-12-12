@@ -1,12 +1,12 @@
 import * as cart from './module/cart/cart.js'
-import * as ui from './utils/ui.js'
+import * as ui from './utils/ui/ui.js'
 
 (() => {
     "use strict"
 
     const KEY = 'carrinho-digital'
 
-    const cardProduct = (product) => {
+    const cardCartProduct = (product) => {
         const col = document.createElement('div')
         col.classList.add('col')
         col.innerHTML = `<div class="card shadow-sm">

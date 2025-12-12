@@ -1,6 +1,6 @@
 import * as product from './module/products/product.js'
 import * as cart from './module/cart/cart.js'
-import * as ui from './utils/ui.js'
+import * as ui from './utils/ui/ui.js'
 import * as category from './module/category/category.js'
 
 (() => {

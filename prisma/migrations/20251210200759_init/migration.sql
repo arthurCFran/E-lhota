@@ -1,4 +1,0 @@
--- AlterTable
-ALTER TABLE `client` ADD COLUMN `city` VARCHAR(191) NULL,
-    ADD COLUMN `state` VARCHAR(191) NULL,
-    ADD COLUMN `zipCode` VARCHAR(191) NULL;

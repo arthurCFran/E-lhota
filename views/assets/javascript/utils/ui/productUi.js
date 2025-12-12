@@ -17,7 +17,7 @@ const cardProduct = (product) => {
     const col = document.createElement('div')
     const modalId = `modal-${product.id}`;
     col.classList.add('col')
-    col.innerHTML = `<div class="card shadow-sm">
+    col.innerHTML = `<div class="card shadow-sm text-light  ">
         <img src="${product.image}" class="card-img-top product-img" alt="${product.title}">
         <div class="card-body" >
             <h5 class="card-title">${product.title}</h5>
@@ -93,7 +93,7 @@ const modalButton = (product) => {
 const buttonCategory = (category) => {
     const button = document.createElement('button')
     button.type = 'button'
-    button.className = 'filter-btn list-group-item list-group-item-action'
+    button.className = 'dropdown-item filter-btn active'
     button.dataset.category = category
     button.textContent = category.charAt(0).toUpperCase() + category.slice(1)
 
