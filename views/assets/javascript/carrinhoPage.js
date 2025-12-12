@@ -6,40 +6,21 @@ import * as ui from './utils/ui/ui.js'
 
     const KEY = 'carrinho-digital'
     const productList = document.querySelector("#product-list")
-
-    const cardCartProduct = (product) => {
-        const col = document.createElement('div')
-        col.classList.add('col')
-        col.innerHTML = `<div class="card shadow-sm">
-            <img src="${product.image}" class="card-img-top product-img" alt="${product.title}">
-            <div class="card-body" >
-                <h5 class="card-title">${product.title}</h5>
-                <p class="car-text text-truncate" > ${product.description}</p>
-                <p class="car-text fw-bold text-success">${product.price.toFixed(2)}</p>
-                <div class="d-flex justify-content-between align-items-center mt-auto" >
-                    <div class="btn-group">
-                        <button type="button" class="btn btn-sm" >Detalhes</button>
-                        <button type="button"
-                            data-id="${product.id}" 
-                            data-id-title="${product.title}" 
-                            data-id-price="${product.price}" 
-                            data-id-image="${product.image}" 
-                            class="btn btn-sm btn-success add-to-cart" >
-                            + Carrinho
-                        </button>
-                    </div>
-                    <small class="text-muted">${product.category}</small>
-                </div>
-            </div>
-        </div>`
-        return col
+    const cartPrice = document.querySelector("#total-price")
+    const cartItems = document.querySelector("#total-items")
+    const btnCheckout = document.querySelector("#checkout-button")
+    let checkoutModal = {
+        totalPrice: 0,
+        totalItems: 0
     }
 
     const showCarrinho = async () => {
-        
-        const products = await cart.get()
+        checkoutModal = {}
+        checkoutModal.totalPrice = 0
+        checkoutModal.totalItems = 0
 
-        console.log(products)
+        productList.innerHTML = ''
+        const products = await cart.get()
 
         if (products.length === 0) {
             productList.innerHTML = ui.cardProductEmpty()
@@ -48,6 +29,10 @@ import * as ui from './utils/ui/ui.js'
 
         ui.updateStatus('', 'none')
         renderCart(products)
+
+        cartPrice.textContent = `R$ ${checkoutModal.totalPrice.toFixed(2)}`
+        cartItems.textContent = `${checkoutModal.totalItems} item(s)`
+        btnCheckout.dataset.checkout = JSONstringify(checkoutModal)
     }
     const renderCart = (products) => {
         const productList = document.querySelector("#product-list")
@@ -56,35 +41,46 @@ import * as ui from './utils/ui/ui.js'
             const col = ui.cardCartProduct(product)
             const modal = ui.modalButton(product);
             productList.appendChild(col)
-            document.body.appendChild(modal); 
+            document.body.appendChild(modal);
+
+            checkoutModal.totalPrice += product.price * product.quantityReq
+            checkoutModal.totalItems += product.quantityReq
+
+            checkoutModal[product.id] = {
+                id: product.id,
+                title: product.title,
+                price: product.price,
+                description: product.description,
+                category: product.category,
+                image: product.image,
+                quantity: product.quantityReq
+            }
         })
     }
 
     productList.addEventListener('click', async (event) => {
-            if (!event.target.classList.contains('exclude-from-cart')) return
-    
-            const product = JSON.parse(event.target.dataset.product)
-    
-            try {
-                await fetch(`/stock/${product.id}/increment`, {
-                    method: "PATCH",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ quant: 1 })
-                });
-            } catch (error) {
-                console.error('Erro ao devolver ao estoque:', error);
-                return alert('Erro ao devolver o produto.')
-            }
-            
-            product.quantity += 1
-            
-            product.quantityReq -= 1
-            
-            if (product.quantityReq <= 0 ) {
-                cart.exclude(product)
-            } 
-        })
+        if (!event.target.classList.contains('exclude-from-cart')) return
+
+        const product = JSON.parse(event.target.dataset.product)
+
+        try {
+            await fetch(`/stock/${product.id}/increment`, {
+                method: "PATCH",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ quant: 1 })
+            });
+        } catch (error) {
+            console.error('Erro ao devolver ao estoque:', error)
+            return alert('Erro ao devolver o produto.')
+        }
+
+        cart.exclude(product)
+
+        showCarrinho()
+    })
 
     //localStorage.removeItem(KEY)
     showCarrinho()
+    console.log(checkoutModal)
+    console.log(btnCheckout.dataset.checkout)
 })()

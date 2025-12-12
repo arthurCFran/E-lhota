@@ -88,6 +88,7 @@ import * as category from './module/category/category.js'
         product.quantity -= 1
 
         cart.add(product)
+        showProducts()
     })
 
     ui.updateStatus('Carregandp produtos...', "info")

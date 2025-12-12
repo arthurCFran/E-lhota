@@ -42,11 +42,17 @@ const exclude = (product) => {
     const cart = load()
 
     const index = cart.items.findIndex(i => i.id === product.id)
-    if (index !== -1){
+    
+    if (index == -1) {
+        console.error('Produto não encontrado no carrinho!')
+        return alert('Produto não encontrado no carrinho!')
+    }
+
+    cart.items[index].quantityReq -= 1
+    cart.items[index].quantity += 1
+
+    if (cart.items[index].quantityReq <= 0){
         cart.items.splice(index, 1)
-    }else {
-        alert('Produto não encontrado no carrinho!')
-        return
     }
 
     cart.updatedAt = Date.now()
