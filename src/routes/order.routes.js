@@ -1,8 +1,8 @@
 import { Router } from "express";
-import { getOrder } from "../controllers/order.controller.js";
+import { finalizeOrder } from "../controllers/order.controller.js";
 
 const router = Router();
 
-router.get("/", fetchFakeStoreProductsController);
+router.get("/", finalizeOrder );
 
 export default router;

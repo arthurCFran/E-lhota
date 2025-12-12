@@ -1,40 +1,44 @@
 import { prisma } from "../db/prisma.js";
 
-const createOrder = async (order) => {
+const createOrder = async (client, cart) => {
+    const newClient = await prisma.client.create({
+        data: {
+            name: client.name,
+            email: client.email,
+            phone: client.phone,
+            address: client.address,
+            city: client.city,
+            state: client.state,
+            zipCode: client.zipCode,
+        }
+    });
 
-    try {
-        return await prisma.order.create({
+    const totalAmount = cart.reduce((sum, item) => {
+        return sum + item.price * item.quantity;
+    }, 0);
+
+    const newOrder = await prisma.order.create({
+        data: {
+            clientId: newClient.id,
+            totalAmount,
+        }
+    });
+
+    const itemsPayload = cart.map(item => {
+        return prisma.orderItem.create({
             data: {
-                clientId: order.clientId,
-                totalAmount: order.totalAmount,
-                client: {
-                    create: {
-                        data: {
-                            name: order.client.name,
-                            email: order.client.email,
-                            phone: order.client.phone,
-                            address: order.client.address,
-                            city: order.client.city,
-                            state: order.client.state,
-                            zipCode: order.client.zipCode,
-                        }
-                    },
-                },
-                orderItems: {
-                    createMany: {
-                        data: order.itens.map(item => ({
-                            productId: item.id,
-                            quantity: item.quantityReq,
-                            price: item.price,
-                        }))
-                    }
-                }
+                orderId: newOrder.id,
+                productId: item.id,
+                quantity: item.quantity,
+                price: item.price
             }
-        })
-    } catch (error) {
-        console.error("Erro ao criar pedido:", error);
-        throw error;
-    }
-}
+        });
+    });
 
-export {createOrder} 
+    await Promise.all(itemsPayload);
+
+    return { newClient, newOrder };
+};
+
+
+export { createOrder } 

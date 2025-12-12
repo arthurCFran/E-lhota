@@ -36,8 +36,8 @@ const popoverFinalizar = () => {
                     
                     <div class="modal-header">
                         <h5 class="modal-title">Finalizar Compra</h5>
-                        <!-- removi id duplicado e deixei só para o footer -->
-                        <button type="button" class="btn-close btn-close-white" 
+                        <button type="button" id="cancel-checkout"
+                            class="btn-close btn-close-white" 
                             data-bs-dismiss="modal"></button>
                     </div>
 
@@ -109,9 +109,9 @@ const popoverFinalizar = () => {
     const modal = new bootstrap.Modal(document.getElementById("checkoutModal"))
     modal.show()
 
-    document.querySelector("#confirm-checkout").addEventListener("click", () => {
+    document.querySelector("#confirm-checkout").addEventListener("click", async () => {
         document.activeElement?.blur()
-
+        try {
         const client = {
             name: document.querySelector("#client-name").value.trim(),
             email: document.querySelector("#client-email").value.trim(),
@@ -121,22 +121,39 @@ const popoverFinalizar = () => {
             state: document.querySelector("#client-state").value.trim(),
             zipCode: document.querySelector("#client-zip").value.trim(),
         }
-
         
         if (!client.name || !client.email) {
             return alert("Por favor, preencha pelo menos Nome e Email.")
         }
 
-        console.log("CLIENTE:", client)
-        console.log("ORDER:", order)
+        const cart = JSON.parse(localStorage.getItem("carrinho-digital"))
+        const response = await createOrder(client, cart)
 
-        alert("Pedido criado! (veja o console)")
+        alert("Pedido finalizado com sucesso! ID: " + response.orderId);
+        localStorage.removeItem("carrinho-digital");
+
         modal.hide()
+        } catch (error) {
+            console.error(error);
+            alert("Erro ao finalizar o pedido.");
+        }
     })
 
     document.querySelector("#cancel-checkout").addEventListener("click", () => {
         document.activeElement?.blur()
     })
+}
+
+const createOrder = async (client, cart) => {
+    const res = await fetch("/order/finalize", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ client, cart })
+    });
+
+    if (!res.ok) throw new Error("Erro ao criar pedido");
+
+    return await res.json();
 }
 
 
