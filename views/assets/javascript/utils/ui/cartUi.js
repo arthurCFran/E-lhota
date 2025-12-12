@@ -36,8 +36,9 @@ const popoverFinalizar = () => {
                     
                     <div class="modal-header">
                         <h5 class="modal-title">Finalizar Compra</h5>
+                        <!-- removi id duplicado e deixei só para o footer -->
                         <button type="button" class="btn-close btn-close-white" 
-                            data-bs-dismiss="modal" id="cancel-checkout"></button>
+                            data-bs-dismiss="modal"></button>
                     </div>
 
                     <div class="modal-body">
@@ -57,6 +58,24 @@ const popoverFinalizar = () => {
                         <label class="form-label">Endereço</label>
                         <input id="client-address" class="form-control mb-3"
                             style="background:#2c2727;border:none;color:white">
+
+                        <div class="row">
+                          <div class="col-6">
+                            <label class="form-label">Cidade</label>
+                            <input id="client-city" class="form-control mb-3"
+                              style="background:#2c2727;border:none;color:white">
+                          </div>
+                          <div class="col-3">
+                            <label class="form-label">Estado</label>
+                            <input id="client-state" class="form-control mb-3"
+                              style="background:#2c2727;border:none;color:white">
+                          </div>
+                          <div class="col-3">
+                            <label class="form-label">CEP</label>
+                            <input id="client-zip" class="form-control mb-3"
+                              style="background:#2c2727;border:none;color:white">
+                          </div>
+                        </div>
 
                     </div>
 
@@ -94,10 +113,18 @@ const popoverFinalizar = () => {
         document.activeElement?.blur()
 
         const client = {
-            name: document.querySelector("#client-name").value,
-            email: document.querySelector("#client-email").value,
-            phone: document.querySelector("#client-phone").value,
-            address: document.querySelector("#client-address").value,
+            name: document.querySelector("#client-name").value.trim(),
+            email: document.querySelector("#client-email").value.trim(),
+            phone: document.querySelector("#client-phone").value.trim(),
+            address: document.querySelector("#client-address").value.trim(),
+            city: document.querySelector("#client-city").value.trim(),
+            state: document.querySelector("#client-state").value.trim(),
+            zipCode: document.querySelector("#client-zip").value.trim(),
+        }
+
+        
+        if (!client.name || !client.email) {
+            return alert("Por favor, preencha pelo menos Nome e Email.")
         }
 
         console.log("CLIENTE:", client)
@@ -110,7 +137,6 @@ const popoverFinalizar = () => {
     document.querySelector("#cancel-checkout").addEventListener("click", () => {
         document.activeElement?.blur()
     })
-
 }
 
 
