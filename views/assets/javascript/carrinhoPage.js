@@ -11,13 +11,14 @@ import * as ui from './utils/ui/ui.js'
     const btnCheckout = document.querySelector("#checkout-button")
     let checkoutModal = {
         totalPrice: 0,
-        totalItems: 0
+        totalItems: 0,
+        items: []
     }
 
     const showCarrinho = async () => {
-        checkoutModal = {}
         checkoutModal.totalPrice = 0
         checkoutModal.totalItems = 0
+        checkoutModal.items = []
 
         productList.innerHTML = ''
         const products = await cart.get()
@@ -32,7 +33,7 @@ import * as ui from './utils/ui/ui.js'
 
         cartPrice.textContent = `R$ ${checkoutModal.totalPrice.toFixed(2)}`
         cartItems.textContent = `${checkoutModal.totalItems} item(s)`
-        btnCheckout.dataset.checkout = JSONstringify(checkoutModal)
+        btnCheckout.dataset.checkout = JSON.stringify(checkoutModal)
     }
     const renderCart = (products) => {
         const productList = document.querySelector("#product-list")
@@ -46,7 +47,7 @@ import * as ui from './utils/ui/ui.js'
             checkoutModal.totalPrice += product.price * product.quantityReq
             checkoutModal.totalItems += product.quantityReq
 
-            checkoutModal[product.id] = {
+            checkoutModal.items.push({
                 id: product.id,
                 title: product.title,
                 price: product.price,
@@ -54,7 +55,7 @@ import * as ui from './utils/ui/ui.js'
                 category: product.category,
                 image: product.image,
                 quantity: product.quantityReq
-            }
+            })
         })
     }
 
@@ -81,6 +82,12 @@ import * as ui from './utils/ui/ui.js'
 
     //localStorage.removeItem(KEY)
     showCarrinho()
-    console.log(checkoutModal)
-    console.log(btnCheckout.dataset.checkout)
+
+    btnCheckout.addEventListener("click", () => {
+        const order = JSON.parse(btnCheckout.dataset.checkout)
+        
+        ui.popoverFinalizar()
+        
+    })
+
 })()

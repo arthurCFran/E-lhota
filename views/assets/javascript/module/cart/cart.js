@@ -65,4 +65,8 @@ const get = () => {
     return cart.items
 }
 
-export { add, get, exclude }
+const clear = () => {
+    localStorage.removeItem(KEY)
+}
+
+export { add, get, exclude, clear }
